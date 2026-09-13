@@ -108,7 +108,7 @@ main {
 
 .result-card h2 {
     margin: 0 0 12px;
-    color: var(--ink);
+    color: var(--black);
 }
 
 .result-card dl {
@@ -121,7 +121,7 @@ main {
 
 .result-card dt {
     font-weight: 600;
-    color: var(--white);
+    color: var(--black);
 }
 
 .result-card dd {
