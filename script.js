@@ -39,6 +39,62 @@ async function loadAllCharacters() {
   }
 }
 
+function findIdByName(query) {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return null;
+
+  // exact match first, then a loose "starts with" fallback
+  if (characterIndex[normalized]) return characterIndex[normalized];
+
+  const partial = Object.keys(characterIndex).find((name) =>
+    name.startsWith(normalized)
+  );
+  return partial ? characterIndex[partial] : null;
+}
+
+async function fetchCharacter(id) {
+  const response = await fetch(`${API_BASE}${id}/`);
+  if (!response.ok) throw new Error("Failed to load character details");
+  return response.json();
+}
+
+function renderCharacter(person) {
+  resultEl.classList.remove("hidden");
+  resultEl.innerHTML = `
+    <h2>${person.name}</h2>
+    <dl>
+      <dt>Height</dt><dd>${person.height} cm</dd>
+      <dt>Mass</dt><dd>${person.mass} kg</dd>
+      <dt>Birth year</dt><dd>${person.birth_year}</dd>
+      <dt>Gender</dt><dd>${person.gender}</dd>
+      <dt>Hair color</dt><dd>${person.hair_color}</dd>
+      <dt>Eye color</dt><dd>${person.eye_color}</dd>
+      <dt>Films</dt><dd>${person.films.length}</dd>
+    </dl>
+  `;
+}
+
+async function handleSearch() {
+  const query = searchBar.value;
+  const id = findIdByName(query);
+
+  if (!id) {
+    resultEl.classList.add("hidden");
+    statusEl.textContent = `No character found matching "${query}".`;
+    return;
+  }
+
+  statusEl.textContent = "Fetching character...";
+  try {
+    const person = await fetchCharacter(id);
+    statusEl.textContent = "";
+    renderCharacter(person);
+  } catch (error) {
+    statusEl.textContent = "Something went wrong fetching that character.";
+    console.error(error);
+  }
+}
+
 searchBtn.addEventListener("click", handleSearch);
 searchBar.addEventListener("keydown", (event) => {
   if (event.key === "Enter") handleSearch();
