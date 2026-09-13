@@ -1,0 +1,137 @@
+:root {
+    --yellow: #FFE81F;
+    --white: #FFFFFF;
+    --black: #000000;
+    --radius: 20px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--black);
+    color: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+header {
+    border-radius: var(--radius);
+    border: 4px solid var(--yellow);
+    padding: 28px 36px;
+    text-align: center;
+    color: var(--yellow);
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(242, 183, 5, 0.25);
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+}
+
+header p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+main {
+    width: 100%;
+    max-width: 560px;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.search-box {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    background: var(--black);
+    border: 4px solid var(--yellow);
+    border-radius: var(--radius);
+    padding: 8px;
+}
+
+#search-bar {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px 14px;
+    border-radius: calc(var(--radius) - 8px);
+
+    font-size: 1rem;
+    background: transparent;
+    color: var(--white);
+}
+
+#search-btn {
+    border: none;
+    background: var(--yellow);
+    padding: 10px 22px;
+    border-radius: calc(var(--radius) - 8px);
+    color: var(--black);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#search-btn:hover {
+    background: var(--white);
+}
+
+#status {
+    min-height: 20px;
+    font-size: 0.9rem;
+    color: #8a7b4d;
+}
+
+.result-card {
+    width: 100%;
+    background: var(--white);
+    border: 2px solid var(--yellow);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+.result-card.hidden {
+    display: none;
+}
+
+.result-card h2 {
+    margin: 0 0 12px;
+    color: var(--ink);
+}
+
+.result-card dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 14px;
+    row-gap: 8px;
+    margin: 0;
+}
+
+.result-card dt {
+    font-weight: 600;
+    color: var(--white);
+}
+
+.result-card dd {
+    margin: 0;
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #a8a08a;
+    text-align: center;
+    justify-content: flex-end;
+}
