@@ -7,6 +7,7 @@ const resultEl = document.getElementById("result");
 
 // name (lowercase) -> id
 let characterIndex = {};
+let isIndexLoading = true;
 
 function extractIdFromUrl(url) {
   // SWAPI urls look like https://swapi.dev/api/people/1/
@@ -36,6 +37,8 @@ async function loadAllCharacters() {
   } catch (error) {
     statusEl.textContent = "Could not load character list. Try again later.";
     console.error(error);
+  } finally {
+    isIndexLoading = false;
   }
 }
 
@@ -53,7 +56,7 @@ function findIdByName(query) {
 }
 
 async function fetchCharacter(id) {
-  const response = await fetch(`${API_BASE}${id}/`);
+  const response = await fetch(`${API_BASE}${id}/`, { cache: "no-store" });
   if (!response.ok) throw new Error("Failed to load character details");
   return response.json();
 }
@@ -76,6 +79,12 @@ function renderCharacter(person) {
 
 async function handleSearch() {
   const query = searchBar.value;
+
+  if (isIndexLoading) {
+    statusEl.textContent = "Still loading character list, please wait...";
+    return;
+  }
+
   const id = findIdByName(query);
 
   if (!id) {
@@ -84,6 +93,7 @@ async function handleSearch() {
     return;
   }
 
+  searchBtn.disabled = true;
   statusEl.textContent = "Fetching character...";
   try {
     const person = await fetchCharacter(id);
@@ -92,6 +102,8 @@ async function handleSearch() {
   } catch (error) {
     statusEl.textContent = "Something went wrong fetching that character.";
     console.error(error);
+  } finally {
+    searchBtn.disabled = false;
   }
 }
 
