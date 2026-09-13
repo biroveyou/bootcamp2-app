@@ -4,7 +4,7 @@
 Daniel Macêdo Passos — Matrícula 22611324
 
 ## Descrição
-Uma aplicação básica que permite buscar personagens do universo Star Wars pelo nome e visualizar seus alguns de seus dados. É um bastante útil para testar na prática um fluxo simples de consumo de API pública com JavaScript puro.
+Digita o nome de um personagem de Star Wars e a aplicação busca e mostra os dados dele. Foi feito principalmente pra treinar fetch com API pública em JavaScript puro, mas serve pra qualquer um que quiser ver esse fluxo funcionando na prática. Escolhi não fazer sobre o pokemon para testar se os mesmos conhecimentos podiam ser aplicados a outras APIs
 
 ## API utilizada
 - SWAPI - The Star Wars API: https://swapi.dev/documentation
