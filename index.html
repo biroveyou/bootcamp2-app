@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
+    <!-- Ordem importa: biblioteca -> config.js -> script.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="./config.js" defer></script>
     <script src="./script.js" defer></script>
 </head>
 <body>
@@ -26,9 +29,24 @@
             <button id="search-btn">Search</button>
         </div>
 
-        <p id="status"></p>
+        <section class="panel" id="history-panel">
+            <h2>Recent searches</h2>
+            <div id="history-list" aria-live="polite"></div>
+        </section>
 
-        <section id="result" class="result-card hidden"></section>
+        <p id="status" aria-live="polite"></p>
+
+        <section id="result" class="result-card hidden" aria-live="polite"></section>
+
+        <section class="panel" id="stats-panel">
+            <h2>Favorites stats</h2>
+            <div id="stats" class="stats" aria-live="polite"></div>
+        </section>
+
+        <section class="panel" id="favorites-panel">
+            <h2>My favorites</h2>
+            <div id="favorites-list" aria-live="polite"></div>
+        </section>
     </main>
 
     <footer>
