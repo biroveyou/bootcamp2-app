@@ -2,6 +2,7 @@ const API_BASE = "https://swapi.dev/api/people/";
 
 const searchBar = document.getElementById("search-bar");
 const searchBtn = document.getElementById("search-btn");
+const randomBtn = document.getElementById("random-btn");
 const statusEl = document.getElementById("status");
 const resultEl = document.getElementById("result");
 const historyList = document.getElementById("history-list");
@@ -18,6 +19,7 @@ const db =
 // name (lowercase) -> id
 let characterIndex = {};
 let isIndexLoading = true;
+let lastShownId = null; // id do último personagem exibido (evita repetir no aleatório)
 
 /* ------------------------------------------------------------------ */
 /* Utilidades                                                          */
@@ -91,6 +93,7 @@ async function fetchCharacter(id) {
 }
 
 function renderCharacter(person) {
+  lastShownId = extractIdFromUrl(person.url);
   resultEl.classList.remove("hidden");
   resultEl.innerHTML = `
     <h2>${person.name}</h2>
@@ -294,8 +297,32 @@ historyList.addEventListener("click", (event) => {
 });
 
 /* ------------------------------------------------------------------ */
-/* Busca                                                               */
+/* Busca e personagem aleatório                                        */
 /* ------------------------------------------------------------------ */
+
+// Os dois botões travam juntos enquanto há uma requisição em andamento.
+function setBusy(isBusy) {
+  searchBtn.disabled = isBusy;
+  randomBtn.disabled = isBusy;
+}
+
+// Busca os detalhes na SWAPI e mostra o cartão. Devolve o personagem (ou null se falhar).
+async function showCharacter(id) {
+  setBusy(true);
+  statusEl.textContent = "Fetching character...";
+  try {
+    const person = await fetchCharacter(id);
+    statusEl.textContent = "";
+    renderCharacter(person);
+    return person;
+  } catch (error) {
+    statusEl.textContent = "Something went wrong fetching that character.";
+    console.error(error);
+    return null;
+  } finally {
+    setBusy(false);
+  }
+}
 
 async function handleSearch() {
   if (searchBtn.disabled) return; // já tem uma busca em andamento
@@ -321,21 +348,37 @@ async function handleSearch() {
     return;
   }
 
-  searchBtn.disabled = true;
-  statusEl.textContent = "Fetching character...";
-  try {
-    const person = await fetchCharacter(id);
-    statusEl.textContent = "";
-    renderCharacter(person);
-  } catch (error) {
-    statusEl.textContent = "Something went wrong fetching that character.";
-    console.error(error);
-  } finally {
-    searchBtn.disabled = false;
+  await showCharacter(id);
+}
+
+// v1.1: sorteia um personagem entre todos os que estão no índice
+async function handleRandom() {
+  if (randomBtn.disabled) return;
+
+  if (isIndexLoading) {
+    statusEl.textContent = "Still loading character list, please wait...";
+    return;
+  }
+
+  const ids = Object.values(characterIndex);
+  if (ids.length === 0) {
+    statusEl.textContent = "Character list unavailable. Reload the page to try again.";
+    return;
+  }
+
+  // evita sortear o mesmo personagem que já está na tela
+  const candidates = ids.length > 1 ? ids.filter((id) => id !== lastShownId) : ids;
+  const id = candidates[Math.floor(Math.random() * candidates.length)];
+
+  const person = await showCharacter(id);
+  if (person) {
+    searchBar.value = person.name;
+    logSearch(person.name, true); // entra no histórico e dá pra refazer clicando
   }
 }
 
 searchBtn.addEventListener("click", handleSearch);
+randomBtn.addEventListener("click", handleRandom);
 searchBar.addEventListener("keydown", (event) => {
   if (event.key === "Enter") handleSearch();
 });

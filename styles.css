@@ -91,8 +91,33 @@ main {
     cursor: pointer;
 }
 
-#search-btn:hover {
+#search-btn:hover:not(:disabled) {
     background: var(--white);
+}
+
+#random-btn {
+    border: 2px solid var(--yellow);
+    background: transparent;
+    color: var(--yellow);
+    padding: 10px 18px;
+    border-radius: calc(var(--radius) - 8px);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#random-btn:hover:not(:disabled),
+#random-btn:focus-visible {
+    background: var(--yellow);
+    color: var(--black);
+}
+
+#search-btn:disabled,
+#random-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
 }
 
 #status {
@@ -305,5 +330,18 @@ footer {
 @media (max-width: 480px) {
     .stats {
         grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        flex-wrap: wrap;
+    }
+
+    #search-bar {
+        flex-basis: 100%;
+    }
+
+    #search-btn,
+    #random-btn {
+        flex: 1;
     }
 }
