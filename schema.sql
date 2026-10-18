@@ -19,7 +19,6 @@ create policy "leitura publica"  on favoritos for select to anon using (true);
 create policy "insercao publica" on favoritos for insert to anon with check (true);
 create policy "remocao publica"  on favoritos for delete to anon using (true);
 
--- Sidequest A: histórico de buscas (só select + insert)
 create table historico (
   id         bigint generated always as identity primary key,
   criado_em  timestamptz not null default now(),

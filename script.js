@@ -210,10 +210,6 @@ favoritesList.addEventListener("click", (event) => {
   if (button && db) removeFavorite(Number(button.dataset.id));
 });
 
-/* ------------------------------------------------------------------ */
-/* Sidequest C — estatísticas calculadas a partir dos dados do banco   */
-/* ------------------------------------------------------------------ */
-
 function renderStats(favorites) {
   const total = favorites.length;
 
@@ -236,10 +232,6 @@ function renderStats(favorites) {
     <div class="stat"><span class="stat-value">${escapeHtml(topGender)}</span><span class="stat-label">Top gender</span></div>
   `;
 }
-
-/* ------------------------------------------------------------------ */
-/* Sidequest A — histórico de buscas                                   */
-/* ------------------------------------------------------------------ */
 
 // Grava em segundo plano: não usa await, então a interface não trava
 // e uma falha do banco nunca atrapalha a busca.
