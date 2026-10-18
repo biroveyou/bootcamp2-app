@@ -58,6 +58,7 @@ Tabela `historico`
   - cor dos olhos (`person.eye_color`)
   - quantidade de filmes do personagem encontrado (`person.films.length`)
 - Salvar o personagem nos favoritos, listar os favoritos e remover
+- Botão **Random** (versão 1.1): sorteia um personagem entre todos os da SWAPI e mostra os dados dele, sem repetir o que já está na tela
 - Extra: histórico das últimas 5 buscas (clicar em uma refaz a busca; as sem resultado aparecem com borda tracejada)
 - Extra: painel de estatísticas dos favoritos (total, mais recente e gênero mais comum, calculados a partir do banco)
 - Feedback de status durante o carregamento da lista e da busca
@@ -70,7 +71,7 @@ Acesse: https://biroveyou.github.io/bootcamp2-app/
 
 ### Com Docker (um comando)
 ```
-docker run -d -p 8080:80 biroveyou/bootcamp2-app:1.0
+docker run -d -p 8080:80 biroveyou/bootcamp2-app:1.1
 ```
 Depois abra http://localhost:8080
 
@@ -101,7 +102,7 @@ O repositório no Docker Hub tem três tags:
 | Tag | Descrição |
 |---|---|
 | `1.0` | primeira versão funcional (persistência com Supabase) |
-| `1.1` | >>> PREENCHER: qual foi a melhoria <<< |
+| `1.1` | adiciona o botão **Random**, que sorteia e mostra um personagem aleatório da SWAPI |
 | `latest` | aponta para a versão mais recente (1.1) |
 
 ```
